@@ -1,4 +1,7 @@
+
+
 import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Products = () => {
   const images = [
@@ -9,24 +12,34 @@ const Products = () => {
   ];
 
   const [index, setIndex] = useState(0);
+  const location = useLocation(); // Get current route information
+  const navigate = useNavigate(); // Navigate between pages
 
-  
   useEffect(() => {
+    console.log("Current page:", location.pathname); // Log the current URL path
+
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 3000);
 
-    return () => clearInterval(interval); 
-  }, []);
+    return () => clearInterval(interval);
+  }, [location]); // Depend on location to log changes when the route updates
 
   return (
-    <div style={{ textAlign: "center", padding: "30px" }}>
+    <div style={{ textAlign: "center", padding: "20px" }}>
       <h1>Our Products</h1>
       <img
         src={images[index]}
         alt="Product"
-        style={{ width: "300px", height: "300px", borderRadius: "40px" }}
+        style={{ width: "300px", height: "300px", borderRadius: "10px" }}
       />
+      <br />
+      <button
+        onClick={() => navigate("/")} // Navigate to Home page
+        style={{ padding: "20px", marginTop: "50px", cursor: "pointer", borderRadius: "100px", backgroundColor:"green" }}
+      >
+        Go to Home Page
+      </button>
     </div>
   );
 };
